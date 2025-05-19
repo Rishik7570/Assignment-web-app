@@ -1,23 +1,29 @@
 'use client'
 import { Button, Container, Typography, Box } from "@mui/material";
-import { signInWithRedirect, signOut, User, getRedirectResult } from "firebase/auth";
+import { signInWithRedirect, onAuthStateChanged, signOut, User, getRedirectResult } from "firebase/auth";
 import { auth, provider } from "../lib/firebaseConfig";
 import { useEffect, useState } from "react";
 
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
 
-  useEffect(() => {
-    getRedirectResult(auth)
+ useEffect(() => {
+  getRedirectResult(auth)
     .then((result) => {
       if (result?.user) {
         setUser(result.user);
       }
     })
     .catch((error) => {
-      console.error("Redirect error", error);
+      console.error("Redirect error:", error);
     });
-  }, []);
+
+  const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+
+  return () => unsubscribe();
+}, []);
 
   const handleGoogleSignIn = async () => {
     try {
