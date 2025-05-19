@@ -1,6 +1,6 @@
 'use client'
 import { Button, Container, Typography, Box } from "@mui/material";
-import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, User } from "firebase/auth";
+import { signInWithPopup, signOut, onAuthStateChanged, User } from "firebase/auth";
 import { auth, provider } from "../lib/firebaseConfig";
 import { useEffect, useState } from "react";
 
