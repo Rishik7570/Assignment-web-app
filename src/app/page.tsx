@@ -1,6 +1,6 @@
 'use client'
 import { Button, Container, Typography, Box } from "@mui/material";
-import { signInWithRedirect, signOut, onAuthStateChanged, User, getRedirectResult } from "firebase/auth";
+import { signInWithRedirect, signOut, User, getRedirectResult } from "firebase/auth";
 import { auth, provider } from "../lib/firebaseConfig";
 import { useEffect, useState } from "react";
 
