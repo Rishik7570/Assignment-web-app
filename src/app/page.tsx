@@ -7,10 +7,12 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
 
- useEffect(() => {
-  getRedirectResult(auth)
+  useEffect(() => {
+    let ignore = false;
+
+    getRedirectResult(auth)
     .then((result) => {
-      if (result?.user) {
+      if (!ignore && result?.user) {
         setUser(result.user);
       }
     })
@@ -19,11 +21,17 @@ export default function Home() {
     });
 
   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
+    if (!ignore && currentUser) {
+      setUser(currentUser);
+    }
   });
 
-  return () => unsubscribe();
-}, []);
+    return () => {
+      ignore = true;
+      unsubscribe();
+    };
+  }, []);
+
 
   const handleGoogleSignIn = async () => {
     try {
