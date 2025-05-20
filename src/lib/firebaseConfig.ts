@@ -18,5 +18,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+provider.setCustomParameters({
+  'redirect_uri': 'myapp://auth'
+})
 
 export { auth, provider };
